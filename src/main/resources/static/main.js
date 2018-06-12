@@ -41,7 +41,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-6\">\n  <h2 class=\"text-center\">Add Monster</h2>\n<form>\n\n  <div class=\"form-group\">\n    <label for=\"id\">Id:</label>\n   <input [(ngModel)]=\"monster.id\" name=\"id\" class=\"form-control\" id=\"id\">\n  </div>\n\n  <div class=\"form-group\">\n    <label for=\"name\">Name:</label>\n    <input [(ngModel)]=\"monster.name\" name=\"name\" class=\"form-control\" id=\"name\">\n  </div>\n\n  <div class=\"form-group\">\n    <label for=\"challenge_rating\">Challenge Rating:</label>\n   <input [(ngModel)]=\"monster.challenge_rating\" name=\"challenge_rating\" class=\"form-control\" id=\"challenge_rating\">\n  </div>\n\n  <button class=\"btn btn-success\" (click)=\"createMonster()\">Create</button>\n</form>\n</div>"
+module.exports = "<div class=\"row\">\n  <div class=\"col-md-auto\">\n    <h2 class=\"text-center\">Add Monster</h2>\n  <form>\n\n    <div class=\"form-group\">\n      <label for=\"id\">Id:</label>\n    <input [(ngModel)]=\"monster.id\" name=\"id\" class=\"form-control\" id=\"id\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"name\">Name:</label>\n      <input [(ngModel)]=\"monster.name\" name=\"name\" class=\"form-control\" id=\"name\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"challenge_rating\">Challenge Rating:</label>\n    <input [(ngModel)]=\"monster.challenge_rating\" name=\"challenge_rating\" class=\"form-control\" id=\"challenge_rating\">\n    </div>\n\n    <button class=\"btn btn-success\" (click)=\"createMonster()\">Create</button>\n  </form>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -109,7 +109,7 @@ var AddMonsterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".btn-space {\r\n    margin-right: 5px;\r\n}"
 
 /***/ }),
 
@@ -120,7 +120,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"text-align:center\">\n  <h1>\n    DnD Generator!\n  </h1>\n  <a routerLink=\"/monsters\">Monsters</a>\n  <a routerLink=\"/addMonster\">Add monster</a>\n  <router-outlet></router-outlet>\n</div>\n\n"
+module.exports = "<div style=\"text-align:center\">\n  <h1>\n    DnD Generator!\n  </h1>\n  <div style=\"text-align:left\">\n  <a routerLink=\"/monsters\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Monsters</a>\n  <a routerLink=\"/addMonster\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Add monster</a>\n</div>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -370,7 +370,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-6\">\n  <h2> Monster Details</h2>\n  <h3>Find monster:</h3>\n  <input [(ngModel)]=\"foundMonster.id\" name=\"id\" class=\"form-control\">\n  <button class=\"btn btn-danger\" (click)=\"findMonster()\"> Find </button>\n  <button class=\"btn btn-danger\" (click)=\"findMonsters()\"> Find ALl</button>\n  <table>\n      <th>Found monster:</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n      <tr>\n          <td>{{foundMonster.id}}</td>\n          <td>{{foundMonster.name}}</td>\n          <td>{{foundMonster.challenge_rating}}</td>\n          <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(foundMonster)\"> Delete Monster</button></td>\n      </tr>\n  </table>\n  <table class=\"table table-striped\">\n    <thead>\n    <tr>\n      <th class=\"hidden\">Id</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let monster of monsters\">\n      <td class=\"hidden\"></td>\n      <td>{{monster.id}}</td>\n      <td>{{monster.name}}</td>\n      <td>{{monster.challenge_rating}}</td>\n      <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(monster)\"> Delete Monster</button></td>\n    </tr>\n    </tbody>\n  </table>\n  </div>\n  "
+module.exports = "<div class=\"row\"></div>\n<div class=\"col-md-1\"></div>\n<div class=\"col-md-auto\">\n  <h2> Monster Details</h2>\n  <table class=\"table table-striped\">\n    <thead>\n    <tr>\n      <th class=\"hidden\">Id</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let monster of monsters\">\n      <td class=\"hidden\"></td>\n      <td>{{monster.id}}</td>\n      <td>{{monster.name}}</td>\n      <td>{{monster.challenge_rating}}</td>\n      <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(monster)\"> Delete Monster</button></td>\n    </tr>\n    </tbody>\n  </table>\n</div>\n<div class=\"col-md-1\"></div>\n  "
 
 /***/ }),
 
