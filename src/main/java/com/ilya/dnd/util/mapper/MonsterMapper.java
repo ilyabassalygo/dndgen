@@ -49,7 +49,7 @@ public class MonsterMapper {
         return monster;
     }
 
-    public MonsterDto mapMonsterDto(Monster monster) {
+    public MonsterDto mapFullMonsterDto(Monster monster) {
         MonsterDto monsterDto = monsterParseUtil.parseEntityToDto(monster);
 
         List<ActionDto> actions = parseEntityCollectionToDto(monster.getActions(), actionsParseUtil);
@@ -63,6 +63,11 @@ public class MonsterMapper {
         monsterDto.setReactions(reactions);
 
         return monsterDto;
+    }
+
+
+    public MonsterDto mapMonsterDto(Monster monster) {
+        return monsterParseUtil.parseEntityToDto(monster);
     }
 
     private <F, T> List<T> parseDtoCollectionToEntity(List<F> dtos, ParseUtil<F, T> parseUtil) {

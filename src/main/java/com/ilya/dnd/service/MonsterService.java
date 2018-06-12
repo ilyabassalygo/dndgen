@@ -30,7 +30,7 @@ public class MonsterService {
 
     public MonsterDto findMonster(Long id) {
         Monster monster = monsterRepository.find(id);
-        return monsterMapper.mapMonsterDto(monster);
+        return monsterMapper.mapFullMonsterDto(monster);
     }
 
     public void saveMonster(MonsterDto monsterDto) {
