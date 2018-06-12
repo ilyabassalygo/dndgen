@@ -31,7 +31,11 @@ export class MonsterComponent implements OnInit {
   deleteMonster(monster: Monster): void {
     this.monsterService.deleteMonster(monster)
     .subscribe( data => {
+      if (monster.id == this.foundMonster.id) {
+        this.foundMonster = new Monster();
+      }
       this.monsters = this.monsters.filter( m => m !== monster);
     });
+    
   };
 }
