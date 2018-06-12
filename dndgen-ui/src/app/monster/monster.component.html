@@ -1,0 +1,40 @@
+<div class="col-md-6">
+  <h2> Monster Details</h2>
+  <h3>Find monster:</h3>
+  <input [(ngModel)]="foundMonster.id" name="id" class="form-control">
+  <button class="btn btn-danger" (click)="findMonster(foundMonster)"> Find </button>
+  <table>
+      <th>Found monster:</th>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Challenge rating</th>
+      <th>Action</th>
+      <tr>
+          <td>{{foundMonster.id}}</td>
+          <td>{{foundMonster.name}}</td>
+          <td>{{foundMonster.challenge_rating}}</td>
+          <td><button class="btn btn-danger" (click)="deleteMonster(foundMonster)"> Delete Monster</button></td>
+      </tr>
+  </table>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Challenge rating</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let monster of monsters">
+      <td class="hidden"></td>
+      <td>{{monster.id}}</td>
+      <td>{{monster.name}}</td>
+      <td>{{monster.challenge_rating}}</td>
+      <td><button class="btn btn-danger" (click)="deleteMonster(monster)"> Delete Monster</button></td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+  

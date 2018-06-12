@@ -1,0 +1,6 @@
+web: cd dndgen-ui
+web: ng build
+web: cd ..
+web: cd backend
+web: mvn install
+web: mvn spring-boot:run
