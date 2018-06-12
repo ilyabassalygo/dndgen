@@ -319,9 +319,7 @@ var MonsterService = /** @class */ (function () {
         this.monsterUrl = '/api/monster';
     }
     MonsterService.prototype.getMonsters = function () {
-        var _this = this;
-        this.http.get(this.monsterUrl).subscribe(function (data) { _this.monsters = data; });
-        return this.monsters;
+        return this.http.get(this.monsterUrl);
     };
     ;
     MonsterService.prototype.getMonster = function (monster) {
@@ -365,7 +363,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-6\">\n  <h2> Monster Details</h2>\n  <h3>Find monster:</h3>\n  <input [(ngModel)]=\"foundMonster.id\" name=\"id\" class=\"form-control\">\n  <button class=\"btn btn-danger\" (click)=\"findMonster(foundMonster)\"> Find </button>\n  <table>\n      <th>Found monster:</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n      <tr>\n          <td>{{foundMonster.id}}</td>\n          <td>{{foundMonster.name}}</td>\n          <td>{{foundMonster.challenge_rating}}</td>\n          <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(foundMonster)\"> Delete Monster</button></td>\n      </tr>\n  </table>\n  <table class=\"table table-striped\">\n    <thead>\n    <tr>\n      <th class=\"hidden\">Id</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let monster of monsters\">\n      <td class=\"hidden\"></td>\n      <td>{{monster.id}}</td>\n      <td>{{monster.name}}</td>\n      <td>{{monster.challenge_rating}}</td>\n      <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(monster)\"> Delete Monster</button></td>\n    </tr>\n    </tbody>\n  </table>\n  </div>\n  "
+module.exports = "<div class=\"col-md-6\">\n  <h2> Monster Details</h2>\n  <h3>Find monster:</h3>\n  <input [(ngModel)]=\"foundMonster.id\" name=\"id\" class=\"form-control\">\n  <button class=\"btn btn-danger\" (click)=\"findMonster()\"> Find </button>\n  <button class=\"btn btn-danger\" (click)=\"findMonsters()\"> Find ALl</button>\n  <table>\n      <th>Found monster:</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n      <tr>\n          <td>{{foundMonster.id}}</td>\n          <td>{{foundMonster.name}}</td>\n          <td>{{foundMonster.challenge_rating}}</td>\n          <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(foundMonster)\"> Delete Monster</button></td>\n      </tr>\n  </table>\n  <table class=\"table table-striped\">\n    <thead>\n    <tr>\n      <th class=\"hidden\">Id</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let monster of monsters\">\n      <td class=\"hidden\"></td>\n      <td>{{monster.id}}</td>\n      <td>{{monster.name}}</td>\n      <td>{{monster.challenge_rating}}</td>\n      <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(monster)\"> Delete Monster</button></td>\n    </tr>\n    </tbody>\n  </table>\n  </div>\n  "
 
 /***/ }),
 
@@ -403,7 +401,12 @@ var MonsterComponent = /** @class */ (function () {
         this.foundMonster = new _model_monster_model__WEBPACK_IMPORTED_MODULE_2__["Monster"]();
     }
     MonsterComponent.prototype.ngOnInit = function () {
-        this.monsters = this.monsterService.getMonsters();
+        var _this = this;
+        this.monsterService.getMonsters().subscribe(function (data) { _this.monsters = data; });
+    };
+    MonsterComponent.prototype.findMonsters = function () {
+        var _this = this;
+        this.monsterService.getMonsters().subscribe(function (data) { _this.monsters = data; });
     };
     MonsterComponent.prototype.findMonster = function () {
         var _this = this;

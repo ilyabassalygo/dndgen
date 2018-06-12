@@ -17,7 +17,11 @@ export class MonsterComponent implements OnInit {
   constructor(private router: Router, private monsterService: MonsterService) { }
 
   ngOnInit() {
-    this.monsters = this.monsterService.getMonsters();
+    this.monsterService.getMonsters().subscribe(data => {this.monsters = data});
+  }
+
+  findMonsters():void {
+   this.monsterService.getMonsters().subscribe(data => {this.monsters = data});
   }
 
   findMonster():void {

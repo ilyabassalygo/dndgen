@@ -10,11 +10,8 @@ export class MonsterService {
 
   private monsterUrl = '/api/monster';
 
-  monsters: Monster[];
-
-  public getMonsters(): Monster[]{
-    this.http.get<Monster[]>(this.monsterUrl).subscribe(data => {this.monsters = data});
-    return this.monsters;
+  public getMonsters(){
+    return this.http.get<Monster[]>(this.monsterUrl); 
   };
 
   public getMonster(monster){

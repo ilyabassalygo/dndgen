@@ -2,7 +2,8 @@
   <h2> Monster Details</h2>
   <h3>Find monster:</h3>
   <input [(ngModel)]="foundMonster.id" name="id" class="form-control">
-  <button class="btn btn-danger" (click)="findMonster(foundMonster)"> Find </button>
+  <button class="btn btn-danger" (click)="findMonster()"> Find </button>
+  <button class="btn btn-danger" (click)="findMonsters()"> Find ALl</button>
   <table>
       <th>Found monster:</th>
       <th>Id</th>
