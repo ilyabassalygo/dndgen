@@ -67,7 +67,11 @@ public class MonsterMapper {
 
 
     public MonsterDto mapMonsterDto(Monster monster) {
-        return monsterParseUtil.parseEntityToDto(monster);
+        MonsterDto monsterDto = new MonsterDto();
+        monsterDto.setId(monster.getMonsterId());
+        monsterDto.setName(monster.getName());
+        monsterDto.setChallengeRating(monster.getChallengeRating());
+        return monsterDto;
     }
 
     private <F, T> List<T> parseDtoCollectionToEntity(List<F> dtos, ParseUtil<F, T> parseUtil) {
