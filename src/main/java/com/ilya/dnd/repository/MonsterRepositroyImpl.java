@@ -1,5 +1,7 @@
 package com.ilya.dnd.repository;
 
+import com.ilya.dnd.exception.EntityNotFoundException;
+import com.ilya.dnd.exception.JpaException;
 import com.ilya.dnd.model.Monster;
 import org.springframework.stereotype.Repository;
 
@@ -7,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -17,41 +20,68 @@ public class MonsterRepositroyImpl implements MonsterRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Monster> findAll() {
-        TypedQuery<Monster> query =
-                entityManager.createQuery("SELECT m FROM Monster m", Monster.class);
-
-        return query.getResultList();
+    public List<Monster> findAll() throws JpaException {
+        List<Monster> monsters = new ArrayList<>();
+        try {
+            TypedQuery<Monster> query =
+                    entityManager.createQuery("SELECT m FROM Monster m", Monster.class);
+            monsters = query.getResultList();
+        } catch (Exception e) {
+            throw new JpaException("Unexpected exception while findAll in MonsterRepository");
+        }
+        return monsters;
     }
 
     @Override
-    public Monster find(long id) {
-        return entityManager.find(Monster.class, id);
+    public Monster find(long id) throws JpaException {
+        Monster monster = null;
+        try {
+            monster = entityManager.find(Monster.class, id);
+        } catch (Exception e) {
+            throw new JpaException("Unexpected exception in find of MonsterRepository");
+        }
+        return monster;
     }
 
     @Override
-    public Monster update(Monster monster) {
-        Monster updatedMonster = this.find(monster.getMonsterId());
-        initializeMonster(updatedMonster, monster);
-        monster.getActions().forEach(action -> action.setMonster(updatedMonster));
-        monster.getLegendaryActions().forEach(legendaryAction -> legendaryAction.setMonster(updatedMonster));
-        monster.getSpecialAbilities().forEach(specialAbility -> specialAbility.setMonster(updatedMonster));
-        monster.getReactions().forEach(reaction -> reaction.setMonster(updatedMonster));
+    public Monster update(Monster monster) throws JpaException {
+        Monster updatedMonster;
+        try {
+            updatedMonster = this.find(monster.getMonsterId());
+            if (updatedMonster == null) {
+                throw new EntityNotFoundException("Monster for update not found " + monster.getMonsterId());
+            }
+            initializeMonster(updatedMonster, monster);
+            monster.getActions().forEach(action -> action.setMonster(updatedMonster));
+            monster.getLegendaryActions().forEach(legendaryAction -> legendaryAction.setMonster(updatedMonster));
+            monster.getSpecialAbilities().forEach(specialAbility -> specialAbility.setMonster(updatedMonster));
+            monster.getReactions().forEach(reaction -> reaction.setMonster(updatedMonster));
+        } catch (Exception e) {
+            throw new JpaException("Unexpected exception in update of MonsterRepository");
+        }
         return updatedMonster;
     }
 
     @Override
-    public void save(Monster monster) {
-        monster.getActions().forEach(action -> action.setMonster(monster));
-        monster.getLegendaryActions().forEach(legendaryAction -> legendaryAction.setMonster(monster));
-        monster.getSpecialAbilities().forEach(specialAbility -> specialAbility.setMonster(monster));
-        monster.getReactions().forEach(reaction -> reaction.setMonster(monster));
-        entityManager.persist(monster);
+    public void save(Monster monster) throws JpaException {
+        try {
+            monster.getActions().forEach(action -> action.setMonster(monster));
+            monster.getLegendaryActions().forEach(legendaryAction -> legendaryAction.setMonster(monster));
+            monster.getSpecialAbilities().forEach(specialAbility -> specialAbility.setMonster(monster));
+            monster.getReactions().forEach(reaction -> reaction.setMonster(monster));
+            entityManager.persist(monster);
+        } catch (Exception e) {
+            throw new JpaException("Unexpected exception in save of MonsterRepository");
+        }
     }
 
     @Override
-    public void delete(long id) {
-        entityManager.remove(this.find(id));
+    public void delete(long id) throws JpaException {
+        try {
+            entityManager.remove(this.find(id));
+        } catch (Exception e) {
+            throw new JpaException("Unexpected exception in delete of MonsterRepository");
+        }
     }
 
     private void initializeMonster(Monster updatedMonster, Monster monster) {

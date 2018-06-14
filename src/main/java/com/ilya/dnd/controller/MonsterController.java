@@ -1,6 +1,8 @@
 package com.ilya.dnd.controller;
 
 import com.ilya.dnd.dto.MonsterDto;
+import com.ilya.dnd.exception.JpaException;
+import com.ilya.dnd.exception.ServiceException;
 import com.ilya.dnd.model.Monster;
 import com.ilya.dnd.service.JsonIOConverter;
 import com.ilya.dnd.service.MonsterService;
@@ -23,18 +25,31 @@ public class MonsterController {
     private JsonIOConverter jsonIOConverter;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<MonsterDto> findMonsters() {
-        return monsterService.findAllMonsters();
+    public ResponseEntity<List<MonsterDto>> findMonsters() {
+        try {
+            return new ResponseEntity<>(monsterService.findAllMonsters(), HttpStatus.OK);
+        } catch (ServiceException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public MonsterDto findMonser(@PathVariable long id){
-        return monsterService.findMonster(id);
+    public ResponseEntity<MonsterDto> findMonser(@PathVariable long id){
+        try {
+            return new ResponseEntity<>(monsterService.findMonster(id), HttpStatus.OK);
+        } catch (ServiceException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/convert")
     public List<MonsterDto> convertMonsters(){
-        return jsonIOConverter.convertFileJson();
+        try {
+            return jsonIOConverter.convertFileJson();
+        } catch (JpaException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -45,13 +60,21 @@ public class MonsterController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity updateMonster(@RequestBody MonsterDto monsterDto) {
-        monsterService.updateMonster(monsterDto);
+        try {
+            monsterService.updateMonster(monsterDto);
+        } catch (ServiceException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
     public ResponseEntity deleteMonster(@PathVariable long id) {
-        monsterService.deleteMonster(id);
+        try {
+            monsterService.deleteMonster(id);
+        } catch (ServiceException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 }

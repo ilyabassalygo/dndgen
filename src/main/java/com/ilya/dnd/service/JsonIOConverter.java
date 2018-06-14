@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilya.dnd.dto.AbilityDto;
 import com.ilya.dnd.dto.MonsterDto;
+import com.ilya.dnd.exception.JpaException;
 import com.ilya.dnd.model.Monster;
 import com.ilya.dnd.repository.MonsterRepository;
 import com.ilya.dnd.util.mapper.MonsterMapper;
@@ -33,7 +34,7 @@ public class JsonIOConverter {
     @Qualifier("monsterParseUtil")
     private ParseUtil<MonsterDto, Monster> parseUtil;
 
-    public List<MonsterDto> convertFileJson() {
+    public List<MonsterDto> convertFileJson() throws JpaException {
         List<MonsterDto> monsters = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
