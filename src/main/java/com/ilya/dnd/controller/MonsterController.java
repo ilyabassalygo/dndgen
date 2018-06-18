@@ -1,6 +1,7 @@
 package com.ilya.dnd.controller;
 
 import com.ilya.dnd.dto.MonsterDto;
+import com.ilya.dnd.exception.InvalidOperationException;
 import com.ilya.dnd.exception.JpaException;
 import com.ilya.dnd.exception.ServiceException;
 import com.ilya.dnd.model.Monster;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api/monster")
 public class MonsterController {
@@ -24,10 +24,15 @@ public class MonsterController {
     @Autowired
     private JsonIOConverter jsonIOConverter;
 
+    @RequestMapping(method = RequestMethod.GET, path = "/count")
+    public ResponseEntity<Long> receiveMonsterCount(){
+        return new ResponseEntity<>(monsterService.countMonsters(), HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<MonsterDto>> findMonsters() {
+    public ResponseEntity<List<MonsterDto>> findMonsters(@RequestParam String pageSize, @RequestParam String page) {
         try {
-            return new ResponseEntity<>(monsterService.findAllMonsters(), HttpStatus.OK);
+            return new ResponseEntity<>(monsterService.findAllMonsters(Integer.valueOf(pageSize), Integer.valueOf(page)), HttpStatus.OK);
         } catch (ServiceException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -54,16 +59,20 @@ public class MonsterController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity saveMonster(@RequestBody MonsterDto monsterDto) {
-        monsterService.saveMonster(monsterDto);
-        return new ResponseEntity(HttpStatus.CREATED);
+        try {
+            monsterService.saveMonster(monsterDto);
+            return new ResponseEntity(HttpStatus.CREATED);
+        } catch (InvalidOperationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity updateMonster(@RequestBody MonsterDto monsterDto) {
         try {
             monsterService.updateMonster(monsterDto);
-        } catch (ServiceException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (InvalidOperationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(HttpStatus.OK);
     }

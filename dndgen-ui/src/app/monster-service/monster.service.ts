@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Monster } from '../model/monster.model';
 
@@ -10,8 +10,21 @@ export class MonsterService {
 
   private monsterUrl = '/api/monster';
 
-  public getMonsters(){
-    return this.http.get<Monster[]>(this.monsterUrl); 
+  public getMonstersCount(){
+    let pomogite: number = 0;
+    this.http.get<number>(this.monsterUrl + "/count").subscribe(data => {
+      pomogite = data
+      console.log("pomogite " + pomogite)
+    })
+    return pomogite;
+  };
+
+  public getMonsters(pageSize: number, page: number){
+    console.log(page)
+    let params = new HttpParams();
+    params = params.set("pageSize", pageSize.toString());
+    params = params.set("page", page.toString());
+    return this.http.get<Monster[]>(this.monsterUrl, {params}); 
   };
 
   public getMonster(monster){

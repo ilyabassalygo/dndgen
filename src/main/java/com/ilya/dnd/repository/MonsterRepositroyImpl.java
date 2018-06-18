@@ -4,9 +4,11 @@ import com.ilya.dnd.exception.EntityNotFoundException;
 import com.ilya.dnd.exception.JpaException;
 import com.ilya.dnd.model.Monster;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -20,14 +22,15 @@ public class MonsterRepositroyImpl implements MonsterRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Monster> findAll() throws JpaException {
-        List<Monster> monsters = new ArrayList<>();
+    public List<Monster> findAll(int pageSize, int page) throws JpaException {
+        List<Monster> monsters;
         try {
-            TypedQuery<Monster> query =
-                    entityManager.createQuery("SELECT m FROM Monster m", Monster.class);
-            monsters = query.getResultList();
+            TypedQuery<Monster>  selectQuery = entityManager.createQuery("SELECT m From Monster m", Monster.class);
+            selectQuery.setFirstResult((page) * pageSize);
+            selectQuery.setMaxResults(pageSize);
+            monsters = selectQuery.getResultList();
         } catch (Exception e) {
-            throw new JpaException("Unexpected exception while findAll in MonsterRepository");
+            throw new JpaException("Unexpected exception while findAll in MonsterRepository " + e.getMessage());
         }
         return monsters;
     }
@@ -82,6 +85,13 @@ public class MonsterRepositroyImpl implements MonsterRepository {
         } catch (Exception e) {
             throw new JpaException("Unexpected exception in delete of MonsterRepository");
         }
+    }
+
+    @Override
+    public Long count() {
+        Query query =
+                entityManager.createQuery("SELECT count(m.monsterId) FROM Monster m");
+        return (Long)query.getSingleResult();
     }
 
     private void initializeMonster(Monster updatedMonster, Monster monster) {

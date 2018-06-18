@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".success {\r\n    color: rgb(130, 196, 33);\r\n}\r\n\r\n.err {\r\n    color: red;\r\n}"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-md-auto\">\n    <h2 class=\"text-center\">Add Monster</h2>\n  <form>\n\n    <div class=\"form-group\">\n      <label for=\"id\">Id:</label>\n    <input [(ngModel)]=\"monster.id\" name=\"id\" class=\"form-control\" id=\"id\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"name\">Name:</label>\n      <input [(ngModel)]=\"monster.name\" name=\"name\" class=\"form-control\" id=\"name\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"challenge_rating\">Challenge Rating:</label>\n    <input [(ngModel)]=\"monster.challenge_rating\" name=\"challenge_rating\" class=\"form-control\" id=\"challenge_rating\">\n    </div>\n\n    <button class=\"btn btn-success\" (click)=\"createMonster()\">Create</button>\n  </form>\n  </div>\n</div>"
+module.exports = "<div class=\"row\">\n  <div class=\"col-md-auto\">\n    <h2 class=\"text-center\">Add Monster</h2>\n    <h3 class=\"err\">{{errorMessage}}</h3>\n  <form class=\"col-md-4 col-md-offset-4\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name:</label>\n      <input [(ngModel)]=\"monster.name\" name=\"name\" class=\"form-control\" id=\"name\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"challenge_rating\">Challenge Rating:</label>\n    <input [(ngModel)]=\"monster.challenge_rating\" name=\"challenge_rating\" class=\"form-control\" id=\"challenge_rating\">\n    </div>\n    <button class=\"btn btn-success\" (click)=\"createMonster()\">Create</button>\n    <h3 class=\"success\">{{succesMessage}}</h3>\n  </form>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -79,14 +79,25 @@ var AddMonsterComponent = /** @class */ (function () {
         this.monster = new _model_monster_model__WEBPACK_IMPORTED_MODULE_2__["Monster"]();
     }
     AddMonsterComponent.prototype.ngOnInit = function () {
+        this.clearMessages();
     };
     AddMonsterComponent.prototype.createMonster = function () {
+        var _this = this;
+        this.clearMessages();
         this.monsterService.createMonster(this.monster)
             .subscribe(function (data) {
-            alert("monster created");
+            _this.succesMessage = "Monster created";
+        }, function (err) {
+            if (err.status == 400) {
+                _this.errorMessage = "Error while creatuing monster";
+            }
         });
     };
     ;
+    AddMonsterComponent.prototype.clearMessages = function () {
+        this.succesMessage = "";
+        this.errorMessage = "";
+    };
     AddMonsterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-add-monster',
@@ -325,8 +336,21 @@ var MonsterService = /** @class */ (function () {
         this.http = http;
         this.monsterUrl = '/api/monster';
     }
-    MonsterService.prototype.getMonsters = function () {
-        return this.http.get(this.monsterUrl);
+    MonsterService.prototype.getMonstersCount = function () {
+        var pomogite = 0;
+        this.http.get(this.monsterUrl + "/count").subscribe(function (data) {
+            pomogite = data;
+            console.log("pomogite " + pomogite);
+        });
+        return pomogite;
+    };
+    ;
+    MonsterService.prototype.getMonsters = function (pageSize, page) {
+        console.log(page);
+        var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]();
+        params = params.set("pageSize", pageSize.toString());
+        params = params.set("page", page.toString());
+        return this.http.get(this.monsterUrl, { params: params });
     };
     ;
     MonsterService.prototype.getMonster = function (monster) {
@@ -359,7 +383,7 @@ var MonsterService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".err {\r\n    color: red;\r\n}"
 
 /***/ }),
 
@@ -370,7 +394,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\"></div>\n<div class=\"col-md-1\"></div>\n<div class=\"col-md-auto\">\n  <h2> Monster Details</h2>\n  <table class=\"table table-striped\">\n    <thead>\n    <tr>\n      <th class=\"hidden\">Id</th>\n      <th>Id</th>\n      <th>Name</th>\n      <th>Challenge rating</th>\n      <th>Action</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let monster of monsters\">\n      <td class=\"hidden\"></td>\n      <td>{{monster.id}}</td>\n      <td>{{monster.name}}</td>\n      <td>{{monster.challenge_rating}}</td>\n      <td><button class=\"btn btn-danger\" (click)=\"deleteMonster(monster)\"> Delete Monster</button></td>\n    </tr>\n    </tbody>\n  </table>\n</div>\n<div class=\"col-md-1\"></div>\n  "
+module.exports = "<div class=\"row\"></div>\n<div class=\"col-md-1\"></div>\n<div class=\"col-md-auto\">\n  <h2> Monster Details</h2>\n  <div class=\"form-group\">\n    <label for=\"id\">Find monster by Id:</label>\n    <h3 class=\"err\">{{errorText}}</h3>\n    <div class=\"row\">\n      <div class=\"col-md-4\"></div>\n      <div class=\"col-md-4\"><input [(ngModel)]=\"foundMonster.id\" name=\"id\" class=\"form-control\" id=\"id\"></div>\n      <div class=\"col-md-4\"></div>\n    </div>\n    <button class=\"btn btn-primary\" (click)=\"findMonster()\"> Find</button>\n    <table class=\"table table-striped\">\n      <thead>\n        <tr>\n          <th class=\"hidden\">Id</th>\n          <th>Id</th>\n          <th>Name</th>\n          <th>Challenge rating</th>\n          <th>Action</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td class=\"hidden\"></td>\n          <td>{{foundMonster.id}}</td>\n          <td>{{foundMonster.name}}</td>\n          <td>{{foundMonster.challenge_rating}}</td>\n          <td>\n            <button class=\"btn btn-danger\" (click)=\"deleteMonster(foundMonster)\"> Delete Monster</button>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n  <table class=\"table table-striped\">\n    <thead>\n      <tr class=\"text-center\">\n        <th class=\"hidden\">Id</th>\n        <th>Id</th>\n        <th>Name</th>\n        <th>Challenge rating</th>\n        <th>Action</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let monster of monsters\">\n        <td class=\"hidden\"></td>\n        <td>{{monster.id}}</td>\n        <td>{{monster.name}}</td>\n        <td>{{monster.challenge_rating}}</td>\n        <td>\n          <button class=\"btn btn-danger\" (click)=\"deleteMonster(monster)\"> Delete Monster</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <nav>\n    <ul class=\"pagination\">\n      <li class=\"page-item\">\n        <a class=\"page-link\" (click)=\"findMonsters(currentPage - 1)\" aria-label=\"Previous\">\n          <span aria-hidden=\"true\">&laquo;</span>\n          <span class=\"sr-only\">Previous</span>\n        </a>\n      </li>\n      <li *ngFor=\"let page of pages\" class=\"page-item\">\n        <a class=\"page-link\" (click)=\"findMonsters(page)\">{{page}}</a>\n      </li>\n      <li class=\"page-item\">\n        <a class=\"page-link\" (click)=\"findMonsters(currentPage + 1)\" aria-label=\"Next\">\n          <span aria-hidden=\"true\">&raquo;</span>\n          <span class=\"sr-only\">Next</span>\n        </a>\n      </li>\n    </ul>\n  </nav>\n</div>\n<div class=\"col-md-1\"></div>"
 
 /***/ }),
 
@@ -405,28 +429,55 @@ var MonsterComponent = /** @class */ (function () {
     function MonsterComponent(router, monsterService) {
         this.router = router;
         this.monsterService = monsterService;
+        this.monsterCount = 324;
+        this.currentPage = 0;
+        this.pages = [];
+        this.pageSize = 15;
         this.foundMonster = new _model_monster_model__WEBPACK_IMPORTED_MODULE_2__["Monster"]();
     }
     MonsterComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.monsterService.getMonsters().subscribe(function (data) { _this.monsters = data; });
+        this.currentPage = 0;
+        for (var i = 0; i < this.monsterCount / this.pageSize; i++) {
+            this.pages.push(i + 1);
+        }
+        this.errorText = "";
+        this.monsterService.getMonsters(this.pageSize, this.currentPage).subscribe(function (data) {
+            _this.monsters = data;
+        });
     };
-    MonsterComponent.prototype.findMonsters = function () {
+    MonsterComponent.prototype.findMonsters = function (page) {
         var _this = this;
-        this.monsterService.getMonsters().subscribe(function (data) { _this.monsters = data; });
+        this.currentPage = page;
+        this.monsterCount = this.monsterService.getMonstersCount();
+        this.monsterService.getMonsters(this.pageSize, page - 1).subscribe(function (data) {
+            _this.monsters = data;
+        });
     };
     MonsterComponent.prototype.findMonster = function () {
         var _this = this;
-        this.monsterService.getMonster(this.foundMonster).subscribe(function (data) { _this.foundMonster = data; });
+        this.errorText = "";
+        this.monsterService.getMonster(this.foundMonster).subscribe(function (data) {
+            _this.foundMonster = data;
+        }, function (err) {
+            if (err.status == 404) {
+                _this.errorText = "Monster with id " + _this.foundMonster.id + " doesn't exist " + err.status;
+            }
+        });
     };
     MonsterComponent.prototype.deleteMonster = function (monster) {
         var _this = this;
+        this.errorText = "";
         this.monsterService.deleteMonster(monster)
             .subscribe(function (data) {
             if (monster.id == _this.foundMonster.id) {
                 _this.foundMonster = new _model_monster_model__WEBPACK_IMPORTED_MODULE_2__["Monster"]();
             }
             _this.monsters = _this.monsters.filter(function (m) { return m !== monster; });
+        }, function (err) {
+            if (err.status == 404) {
+                _this.errorText = "Monster with id " + _this.foundMonster.id + " doesn't exist " + err.status;
+            }
         });
     };
     ;

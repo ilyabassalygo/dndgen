@@ -2,26 +2,78 @@
 <div class="col-md-1"></div>
 <div class="col-md-auto">
   <h2> Monster Details</h2>
+  <div class="form-group">
+    <label for="id">Find monster by Id:</label>
+    <h3 class="err">{{errorText}}</h3>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4"><input [(ngModel)]="foundMonster.id" name="id" class="form-control" id="id"></div>
+      <div class="col-md-4"></div>
+    </div>
+    <button class="btn btn-primary" (click)="findMonster()"> Find</button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="hidden">Id</th>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Challenge rating</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="hidden"></td>
+          <td>{{foundMonster.id}}</td>
+          <td>{{foundMonster.name}}</td>
+          <td>{{foundMonster.challenge_rating}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteMonster(foundMonster)"> Delete Monster</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <table class="table table-striped">
     <thead>
-    <tr>
-      <th class="hidden">Id</th>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Challenge rating</th>
-      <th>Action</th>
-    </tr>
+      <tr class="text-center">
+        <th class="hidden">Id</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Challenge rating</th>
+        <th>Action</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let monster of monsters">
-      <td class="hidden"></td>
-      <td>{{monster.id}}</td>
-      <td>{{monster.name}}</td>
-      <td>{{monster.challenge_rating}}</td>
-      <td><button class="btn btn-danger" (click)="deleteMonster(monster)"> Delete Monster</button></td>
-    </tr>
+      <tr *ngFor="let monster of monsters">
+        <td class="hidden"></td>
+        <td>{{monster.id}}</td>
+        <td>{{monster.name}}</td>
+        <td>{{monster.challenge_rating}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteMonster(monster)"> Delete Monster</button>
+        </td>
+      </tr>
     </tbody>
   </table>
+  <nav>
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" (click)="findMonsters(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item">
+        <a class="page-link" (click)="findMonsters(page)">{{page}}</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" (click)="findMonsters(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>
 <div class="col-md-1"></div>
-  

@@ -26,10 +26,14 @@ public class MonsterService {
     @Autowired
     private MonsterMapper monsterMapper;
 
-    public List<MonsterDto> findAllMonsters() throws ServiceException {
+    public Long countMonsters(){
+        return monsterRepository.count();
+    }
+
+    public List<MonsterDto> findAllMonsters(int pageSize,int page) throws ServiceException {
         List<MonsterDto> monsterDtos = new ArrayList<>();
         try {
-            for (Monster monster : monsterRepository.findAll()) {
+            for (Monster monster : monsterRepository.findAll(pageSize, page)) {
                 MonsterDto monsterDto = monsterMapper.mapMonsterDto(monster);
                 monsterDtos.add(monsterDto);
             }
@@ -55,7 +59,7 @@ public class MonsterService {
         return monsterMapper.mapFullMonsterDto(monster);
     }
 
-    public void saveMonster(MonsterDto monsterDto) {
+    public void saveMonster(MonsterDto monsterDto) throws InvalidOperationException {
         try {
             monsterRepository.save(monsterMapper.mapMonsterEntity(monsterDto));
         } catch (JpaException e) {
@@ -64,14 +68,14 @@ public class MonsterService {
         }
     }
 
-    public void updateMonster(MonsterDto monsterDto) throws ServiceException {
+    public void updateMonster(MonsterDto monsterDto) throws InvalidOperationException {
         try {
         Monster monster = monsterMapper.mapMonsterEntity(monsterDto);
         monster.setMonsterId(monsterDto.getId());
             monsterRepository.update(monster);
         } catch (JpaException e) {
             LOGGER.error(DEFAULT_ERROR_MESSAGE + e.getMessage());
-            throw new ServiceException();
+            throw new InvalidOperationException();
         }
     }
 

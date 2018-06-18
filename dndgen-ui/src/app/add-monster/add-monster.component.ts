@@ -12,17 +12,32 @@ import { MonsterService} from '../monster-service/monster.service';
 export class AddMonsterComponent implements OnInit {
 
   monster: Monster = new Monster();
+  succesMessage: string;
+  errorMessage: string;
 
   constructor(private router: Router, private monsterService: MonsterService) { }
 
   ngOnInit() {
+    this.clearMessages();
   }
 
   createMonster(): void {
+    this.clearMessages();
     this.monsterService.createMonster(this.monster)
       .subscribe( data => {
-        alert("monster created");
-      });
+        this.succesMessage = "Monster created";
+      },
+      err => {
+        if (err.status == 400) {
+          this.errorMessage = "Error while creatuing monster"
+        }
+      }
+    );
   };
+
+  clearMessages(): void {
+    this.succesMessage = "";
+    this.errorMessage = "";
+  } 
 
 }
