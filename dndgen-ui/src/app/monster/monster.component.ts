@@ -39,19 +39,19 @@ export class MonsterComponent implements OnInit {
     this.monsterCount = this.monsterService.getMonstersCount()
     this.monsterService.getMonsters(this.pageSize, page - 1).subscribe(
       data => {
-        this.monsters = data
+        this.monsters = data;
       });
   }
 
   findMonster(): void {
     this.errorText = "";
-    this.monsterService.getMonster(this.foundMonster).subscribe(
+    this.monsterService.getMonsterByName(this.foundMonster).subscribe(
       data => {
         this.foundMonster = data
       },
       err => {
         if (err.status == 404) {
-          this.errorText = "Monster with id " + this.foundMonster.id + " doesn't exist " + err.status;
+          this.errorText = "Monster with name " + this.foundMonster.name + " doesn't exist " + err.status;
         }
       }
     );

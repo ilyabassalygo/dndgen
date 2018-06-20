@@ -26,11 +26,11 @@ public class MonsterService {
     @Autowired
     private MonsterMapper monsterMapper;
 
-    public Long countMonsters(){
+    public Long countMonsters() {
         return monsterRepository.count();
     }
 
-    public List<MonsterDto> findAllMonsters(int pageSize,int page) throws ServiceException {
+    public List<MonsterDto> findAllMonsters(int pageSize, int page) throws ServiceException {
         List<MonsterDto> monsterDtos = new ArrayList<>();
         try {
             for (Monster monster : monsterRepository.findAll(pageSize, page)) {
@@ -45,12 +45,26 @@ public class MonsterService {
     }
 
     public MonsterDto findMonster(Long id) throws ServiceException {
-        Monster monster = null;
+        Monster monster;
         try {
             monster = monsterRepository.find(id);
 
             if (monster == null) {
                 throw new EntityNotFoundException("No monster with such id " + id);
+            }
+        } catch (JpaException e) {
+            LOGGER.error(DEFAULT_ERROR_MESSAGE + e.getMessage());
+            throw new ServiceException(e);
+        }
+        return monsterMapper.mapFullMonsterDto(monster);
+    }
+
+    public MonsterDto findMonsterByName(String name) throws ServiceException {
+        Monster monster;
+        try {
+            monster = monsterRepository.findByName(name);
+            if (monster == null) {
+                throw new EntityNotFoundException("No monster with such name " + name);
             }
         } catch (JpaException e) {
             LOGGER.error(DEFAULT_ERROR_MESSAGE + e.getMessage());
@@ -70,8 +84,8 @@ public class MonsterService {
 
     public void updateMonster(MonsterDto monsterDto) throws InvalidOperationException {
         try {
-        Monster monster = monsterMapper.mapMonsterEntity(monsterDto);
-        monster.setMonsterId(monsterDto.getId());
+            Monster monster = monsterMapper.mapMonsterEntity(monsterDto);
+            monster.setMonsterId(monsterDto.getId());
             monsterRepository.update(monster);
         } catch (JpaException e) {
             LOGGER.error(DEFAULT_ERROR_MESSAGE + e.getMessage());

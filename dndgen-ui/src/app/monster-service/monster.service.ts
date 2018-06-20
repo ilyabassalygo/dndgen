@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Monster } from '../model/monster.model';
+import { FullMonster } from '../model/fullmonster.model';
 
 @Injectable()
 export class MonsterService {
@@ -11,16 +12,14 @@ export class MonsterService {
   private monsterUrl = '/api/monster';
 
   public getMonstersCount(){
-    let pomogite: number = 0;
+    let count: number = 0;
     this.http.get<number>(this.monsterUrl + "/count").subscribe(data => {
-      pomogite = data
-      console.log("pomogite " + pomogite)
+      count = data
     })
-    return pomogite;
+    return count;
   };
 
   public getMonsters(pageSize: number, page: number){
-    console.log(page)
     let params = new HttpParams();
     params = params.set("pageSize", pageSize.toString());
     params = params.set("page", page.toString());
@@ -29,6 +28,14 @@ export class MonsterService {
 
   public getMonster(monster){
     return this.http.get<Monster>(this.monsterUrl + "/" + monster.id);
+  };
+
+  public getMonsterByName(monster){
+    return this.http.get<Monster>(this.monsterUrl + "/by/" + monster.name);
+  };
+
+  public getFullMonster(id: number) {
+    return this.http.get<FullMonster>(this.monsterUrl + "/" + id);
   };
 
   public deleteMonster(monster) {

@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app.routing.module';
 import { MonsterService } from './monster-service/monster.service';
 import { HttpClientModule } from "@angular/common/http";
 import { AddMonsterComponent } from './add-monster/add-monster.component';
+import { MonsterViewComponent } from './monster-view/monster-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MonsterComponent,
-    AddMonsterComponent
+    AddMonsterComponent,
+    MonsterViewComponent
   ],
   imports: [
     BrowserModule,

@@ -47,6 +47,15 @@ public class MonsterController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/by/{name}")
+    public ResponseEntity<MonsterDto> findMonsterByName(@PathVariable String name){
+        try {
+            return new ResponseEntity<>(monsterService.findMonsterByName(name), HttpStatus.OK);
+        } catch (ServiceException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/convert")
     public List<MonsterDto> convertMonsters(){
         try {

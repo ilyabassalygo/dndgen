@@ -25,7 +25,7 @@ public class MonsterRepositroyImpl implements MonsterRepository {
     public List<Monster> findAll(int pageSize, int page) throws JpaException {
         List<Monster> monsters;
         try {
-            TypedQuery<Monster>  selectQuery = entityManager.createQuery("SELECT m From Monster m", Monster.class);
+            TypedQuery<Monster> selectQuery = entityManager.createQuery("SELECT m From Monster m", Monster.class);
             selectQuery.setFirstResult((page) * pageSize);
             selectQuery.setMaxResults(pageSize);
             monsters = selectQuery.getResultList();
@@ -44,6 +44,21 @@ public class MonsterRepositroyImpl implements MonsterRepository {
             throw new JpaException("Unexpected exception in find of MonsterRepository");
         }
         return monster;
+    }
+
+    @Override
+    public Monster findByName(String name) throws JpaException {
+        try {
+            Monster monster = entityManager.createQuery(
+                    "SELECT m FROM Monster m WHERE m.name LIKE :monsterName", Monster.class)
+                    .setParameter("monsterName", name).getResultList().get(0);
+            if (monster == null) {
+                throw new EntityNotFoundException("Can't find monster with name " + name);
+            }
+            return monster;
+        } catch (Exception e) {
+            throw new JpaException("Unexpected exception in findByName MonsterRepository " + e.getMessage());
+        }
     }
 
     @Override
@@ -91,7 +106,7 @@ public class MonsterRepositroyImpl implements MonsterRepository {
     public Long count() {
         Query query =
                 entityManager.createQuery("SELECT count(m.monsterId) FROM Monster m");
-        return (Long)query.getSingleResult();
+        return (Long) query.getSingleResult();
     }
 
     private void initializeMonster(Monster updatedMonster, Monster monster) {

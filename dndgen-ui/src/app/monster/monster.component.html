@@ -3,11 +3,11 @@
 <div class="col-md-auto">
   <h2> Monster Details</h2>
   <div class="form-group">
-    <label for="id">Find monster by Id:</label>
+    <label for="id">Find monster by Name:</label>
     <h3 class="err">{{errorText}}</h3>
     <div class="row">
       <div class="col-md-4"></div>
-      <div class="col-md-4"><input [(ngModel)]="foundMonster.id" name="id" class="form-control" id="id"></div>
+      <div class="col-md-4"><input [(ngModel)]="foundMonster.name" name="name" class="form-control" id="name"></div>
       <div class="col-md-4"></div>
     </div>
     <button class="btn btn-primary" (click)="findMonster()"> Find</button>
@@ -15,17 +15,14 @@
       <thead>
         <tr>
           <th class="hidden">Id</th>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Challenge rating</th>
-          <th>Action</th>
+          <th><h2>Name</h2></th>
+          <th><h2>Challenge rating</h2></th>
+          <th><h2>Action</h2></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="hidden"></td>
-          <td>{{foundMonster.id}}</td>
-          <td>{{foundMonster.name}}</td>
+          <td><a routerLink="/monster-view/{{foundMonster.id}}" class="btn btn-success btn-lg btn-space" role="button">{{foundMonster.name}}</a></td>
           <td>{{foundMonster.challenge_rating}}</td>
           <td>
             <button class="btn btn-danger" (click)="deleteMonster(foundMonster)"> Delete Monster</button>
@@ -37,19 +34,15 @@
   <table class="table table-striped">
     <thead>
       <tr class="text-center">
-        <th class="hidden">Id</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Challenge rating</th>
-        <th>Action</th>
+          <th><h2>Name</h2></th>
+          <th><h2>Challenge rating</h2></th>
+          <th><h2>Action</h2></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let monster of monsters">
-        <td class="hidden"></td>
-        <td>{{monster.id}}</td>
-        <td>{{monster.name}}</td>
-        <td>{{monster.challenge_rating}}</td>
+        <td><a routerLink="/monster-view/{{monster.id}}" class="btn btn-success btn-lg btn-space" role="button">{{monster.name}}</a></td>
+        <td><h3>{{monster.challenge_rating}}</h3></td>
         <td>
           <button class="btn btn-danger" (click)="deleteMonster(monster)"> Delete Monster</button>
         </td>

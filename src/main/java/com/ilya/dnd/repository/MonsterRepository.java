@@ -8,6 +8,7 @@ import java.util.List;
 public interface MonsterRepository {
     List<Monster> findAll(int pageSize,  int page) throws JpaException;
     Monster find(long id) throws JpaException;
+    Monster findByName(String name) throws JpaException;
     Monster update(Monster monster) throws JpaException;
     void save(Monster monster) throws JpaException;
     void delete(long id) throws JpaException;
