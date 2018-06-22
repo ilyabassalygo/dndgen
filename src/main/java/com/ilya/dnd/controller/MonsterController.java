@@ -4,7 +4,6 @@ import com.ilya.dnd.dto.MonsterDto;
 import com.ilya.dnd.exception.InvalidOperationException;
 import com.ilya.dnd.exception.JpaException;
 import com.ilya.dnd.exception.ServiceException;
-import com.ilya.dnd.model.Monster;
 import com.ilya.dnd.service.JsonIOConverter;
 import com.ilya.dnd.service.MonsterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class MonsterController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<MonsterDto>> findMonsters(@RequestParam String pageSize, @RequestParam String page) {
         try {
-            return new ResponseEntity<>(monsterService.findAllMonsters(Integer.valueOf(pageSize), Integer.valueOf(page)), HttpStatus.OK);
+            return new ResponseEntity<>(monsterService.findAllMonstersBatch(Integer.valueOf(pageSize), Integer.valueOf(page)), HttpStatus.OK);
         } catch (ServiceException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

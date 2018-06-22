@@ -33,13 +33,21 @@ public class MonsterMapper {
     @Qualifier("reactionsParseUtil")
     private ParseUtil<ReactionDto, Reaction> reactionsParseUtil;
 
+    public List<MonsterDto> mapMonsterEntityCollectionToFullDto(List<Monster> monsters) {
+        List<MonsterDto> monsterDtos = new ArrayList<>();
+        for (Monster monster : monsters) {
+            monsterDtos.add(mapFullMonsterDto(monster));
+        }
+        return monsterDtos;
+    }
+
     public Monster mapMonsterEntity(MonsterDto monsterDto) {
         Monster monster = monsterParseUtil.parseDtoToEntity(monsterDto);
 
-        List<Action> actions = parseDtoCollectionToEntity(monsterDto.getActions(), actionsParseUtil);
-        List<LegendaryAction> legendaryActions = parseDtoCollectionToEntity(monsterDto.getLegendaryActions(), legendaryActionsParseUtil);
-        List<SpecialAbility> specialAbilities = parseDtoCollectionToEntity(monsterDto.getSpecialAbilities(), specialAbilitiesParseUtil);
-        List<Reaction> reactions = parseDtoCollectionToEntity(monsterDto.getReactions(), reactionsParseUtil);
+        List<Action> actions = ParseUtil.parseDtoCollectionToEntity(monsterDto.getActions(), actionsParseUtil);
+        List<LegendaryAction> legendaryActions = ParseUtil.parseDtoCollectionToEntity(monsterDto.getLegendaryActions(), legendaryActionsParseUtil);
+        List<SpecialAbility> specialAbilities = ParseUtil.parseDtoCollectionToEntity(monsterDto.getSpecialAbilities(), specialAbilitiesParseUtil);
+        List<Reaction> reactions = ParseUtil.parseDtoCollectionToEntity(monsterDto.getReactions(), reactionsParseUtil);
 
         monster.setActions(actions);
         monster.setLegendaryActions(legendaryActions);
@@ -52,10 +60,10 @@ public class MonsterMapper {
     public MonsterDto mapFullMonsterDto(Monster monster) {
         MonsterDto monsterDto = monsterParseUtil.parseEntityToDto(monster);
 
-        List<ActionDto> actions = parseEntityCollectionToDto(monster.getActions(), actionsParseUtil);
-        List<LegendaryActionDto> legendaryActions = parseEntityCollectionToDto(monster.getLegendaryActions(), legendaryActionsParseUtil);
-        List<SpecialAbilityDto> specialAbilities = parseEntityCollectionToDto(monster.getSpecialAbilities(), specialAbilitiesParseUtil);
-        List<ReactionDto> reactions = parseEntityCollectionToDto(monster.getReactions(), reactionsParseUtil);
+        List<ActionDto> actions = ParseUtil.parseEntityCollectionToDto(monster.getActions(), actionsParseUtil);
+        List<LegendaryActionDto> legendaryActions = ParseUtil.parseEntityCollectionToDto(monster.getLegendaryActions(), legendaryActionsParseUtil);
+        List<SpecialAbilityDto> specialAbilities = ParseUtil.parseEntityCollectionToDto(monster.getSpecialAbilities(), specialAbilitiesParseUtil);
+        List<ReactionDto> reactions = ParseUtil.parseEntityCollectionToDto(monster.getReactions(), reactionsParseUtil);
 
         monsterDto.setActions(actions);
         monsterDto.setLegendaryActions(legendaryActions);
@@ -74,23 +82,5 @@ public class MonsterMapper {
         return monsterDto;
     }
 
-    private <F, T> List<T> parseDtoCollectionToEntity(List<F> dtos, ParseUtil<F, T> parseUtil) {
-        List<T> entities = new ArrayList<>();
-        if (dtos != null) {
-            for (F dto : dtos) {
-                entities.add(parseUtil.parseDtoToEntity(dto));
-            }
-        }
-        return entities;
-    }
 
-    private <F, T> List<F> parseEntityCollectionToDto(List<T> entities, ParseUtil<F, T> parseUtil) {
-        List<F> dtos = new ArrayList<>();
-        if (entities != null) {
-            for (T entity : entities) {
-                dtos.add(parseUtil.parseEntityToDto(entity));
-            }
-        }
-        return dtos;
-    }
 }

@@ -30,10 +30,10 @@ public class MonsterService {
         return monsterRepository.count();
     }
 
-    public List<MonsterDto> findAllMonsters(int pageSize, int page) throws ServiceException {
+    public List<MonsterDto> findAllMonstersBatch(int pageSize, int page) throws ServiceException {
         List<MonsterDto> monsterDtos = new ArrayList<>();
         try {
-            for (Monster monster : monsterRepository.findAll(pageSize, page)) {
+            for (Monster monster : monsterRepository.findAllBatch(pageSize, page)) {
                 MonsterDto monsterDto = monsterMapper.mapMonsterDto(monster);
                 monsterDtos.add(monsterDto);
             }

@@ -4,14 +4,12 @@ import com.ilya.dnd.exception.EntityNotFoundException;
 import com.ilya.dnd.exception.JpaException;
 import com.ilya.dnd.model.Monster;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -22,7 +20,7 @@ public class MonsterRepositroyImpl implements MonsterRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Monster> findAll(int pageSize, int page) throws JpaException {
+    public List<Monster> findAllBatch(int pageSize, int page) throws JpaException {
         List<Monster> monsters;
         try {
             TypedQuery<Monster> selectQuery = entityManager.createQuery("SELECT m From Monster m", Monster.class);
@@ -30,7 +28,7 @@ public class MonsterRepositroyImpl implements MonsterRepository {
             selectQuery.setMaxResults(pageSize);
             monsters = selectQuery.getResultList();
         } catch (Exception e) {
-            throw new JpaException("Unexpected exception while findAll in MonsterRepository " + e.getMessage());
+            throw new JpaException("Unexpected exception while findAllBatch in MonsterRepository " + e.getMessage());
         }
         return monsters;
     }
@@ -107,6 +105,17 @@ public class MonsterRepositroyImpl implements MonsterRepository {
         Query query =
                 entityManager.createQuery("SELECT count(m.monsterId) FROM Monster m");
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public List<Monster> findAllBetweenCr(String fromCr, String toCr) throws JpaException {
+        List<Monster> monsters;
+
+        String sql = "SELECT * FROM Monster Where challenge_rating between " + Double.parseDouble(fromCr) + " and " + Double.parseDouble(toCr);
+        Query query = entityManager.createNativeQuery(sql, Monster.class);
+        monsters = (List<Monster>) query.getResultList();
+
+        return monsters;
     }
 
     private void initializeMonster(Monster updatedMonster, Monster monster) {
