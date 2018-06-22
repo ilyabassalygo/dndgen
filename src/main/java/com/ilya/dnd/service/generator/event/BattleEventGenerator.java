@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class BattleEventGenerator {
     private final static int NUMBER_OF_PLAYERS = 4;
-    private final static double DIFFICULTY_RANGE_PERCENT = 0.33;
+    private final static double DIFFICULTY_RANGE_PERCENT = 0.20;
 
     @Autowired
     private MonsterRepository monsterRepository;
@@ -62,21 +62,34 @@ public class BattleEventGenerator {
     }
 
     private List<MonsterDto> chooseMonstersByExpThreshold(List<MonsterDto> monsters, int expThreshold) {
-        double monstersExp = 0;
+        double totalMonstersExp = 0;
         List<MonsterDto> battleMonsters = new ArrayList<>();
         int monsterCount = 0;
+        int refresh = 0;
         do {
             monsterCount++;
             int randomPosition = (int) (Math.random() * (monsters.size() - 1));
-            monstersExp += ChallengeRating.findByCrValue(monsters.get(randomPosition).getChallengeRating()).getExpValue();
-            monstersExp *= MonsterMultiplier.getMultiplier(monsterCount);
+            int monsterExp = ChallengeRating.findByCrValue(monsters.get(randomPosition).getChallengeRating()).getExpValue();
+            totalMonstersExp += monsterExp;
+            totalMonstersExp *= MonsterMultiplier.getMultiplier(monsterCount);
 
             battleMonsters.add(monsters.get(randomPosition));
-            if (monstersExp > expThreshold + (expThreshold * DIFFICULTY_RANGE_PERCENT)) {
+
+            double allowedExpThreshold = expThreshold + (expThreshold * DIFFICULTY_RANGE_PERCENT);
+            if (totalMonstersExp > allowedExpThreshold) {
                 battleMonsters.remove(battleMonsters.remove(battleMonsters.size() - 1));
+
+                totalMonstersExp /= MonsterMultiplier.getMultiplier(monsterCount);
+                totalMonstersExp -= monsterExp;
                 monsterCount--;
+                refresh++;
+                if (refresh == 3) {
+                    battleMonsters = new ArrayList<>();
+                    monsterCount = 0;
+                    totalMonstersExp = 0;
+                }
             }
-        } while (monstersExp < expThreshold);
+        } while (totalMonstersExp < (expThreshold - (expThreshold * DIFFICULTY_RANGE_PERCENT)));
 
         return battleMonsters;
     }

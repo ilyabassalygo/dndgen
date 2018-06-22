@@ -131,7 +131,7 @@ module.exports = ".btn-space {\r\n    margin-right: 5px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"text-align:center\">\n  <h1>\n    DnD Helper\n  </h1>\n  <div style=\"text-align:left\">\n  <a routerLink=\"/monsters\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Monsters</a>\n  <a routerLink=\"/addMonster\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Add monster</a>\n</div>\n  <router-outlet></router-outlet>\n</div>\n\n"
+module.exports = "<div style=\"text-align:center\">\n  <h1>\n    DnD Helper\n  </h1>\n  <div style=\"text-align:left\">\n  <a routerLink=\"/monsters\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Monsters</a>\n  <a routerLink=\"/battleGenerator\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Battle Generator</a>\n  <a routerLink=\"/addMonster\" class=\"btn btn-primary btn-lg btn-space\" role=\"button\">Add monster</a>\n</div>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -198,12 +198,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _add_monster_add_monster_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./add-monster/add-monster.component */ "./src/app/add-monster/add-monster.component.ts");
 /* harmony import */ var _monster_view_monster_view_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./monster-view/monster-view.component */ "./src/app/monster-view/monster-view.component.ts");
+/* harmony import */ var _battle_scene_battle_scene_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./battle-scene/battle-scene.component */ "./src/app/battle-scene/battle-scene.component.ts");
+/* harmony import */ var _scene_service_scene_service_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./scene-service/scene-service.service */ "./src/app/scene-service/scene-service.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -223,7 +227,8 @@ var AppModule = /** @class */ (function () {
                 _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
                 _monster_monster_component__WEBPACK_IMPORTED_MODULE_4__["MonsterComponent"],
                 _add_monster_add_monster_component__WEBPACK_IMPORTED_MODULE_8__["AddMonsterComponent"],
-                _monster_view_monster_view_component__WEBPACK_IMPORTED_MODULE_9__["MonsterViewComponent"]
+                _monster_view_monster_view_component__WEBPACK_IMPORTED_MODULE_9__["MonsterViewComponent"],
+                _battle_scene_battle_scene_component__WEBPACK_IMPORTED_MODULE_10__["BattleSceneComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -231,7 +236,7 @@ var AppModule = /** @class */ (function () {
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"]
             ],
-            providers: [_monster_service_monster_service__WEBPACK_IMPORTED_MODULE_6__["MonsterService"]],
+            providers: [_monster_service_monster_service__WEBPACK_IMPORTED_MODULE_6__["MonsterService"], _scene_service_scene_service_service__WEBPACK_IMPORTED_MODULE_11__["SceneService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
     ], AppModule);
@@ -257,6 +262,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _monster_monster_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./monster/monster.component */ "./src/app/monster/monster.component.ts");
 /* harmony import */ var _add_monster_add_monster_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./add-monster/add-monster.component */ "./src/app/add-monster/add-monster.component.ts");
 /* harmony import */ var _monster_view_monster_view_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./monster-view/monster-view.component */ "./src/app/monster-view/monster-view.component.ts");
+/* harmony import */ var _battle_scene_battle_scene_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./battle-scene/battle-scene.component */ "./src/app/battle-scene/battle-scene.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -268,10 +274,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     { path: 'monsters', component: _monster_monster_component__WEBPACK_IMPORTED_MODULE_2__["MonsterComponent"] },
     { path: 'addMonster', component: _add_monster_add_monster_component__WEBPACK_IMPORTED_MODULE_3__["AddMonsterComponent"] },
-    { path: 'monster-view/:id', component: _monster_view_monster_view_component__WEBPACK_IMPORTED_MODULE_4__["MonsterViewComponent"] }
+    { path: 'monster-view/:id', component: _monster_view_monster_view_component__WEBPACK_IMPORTED_MODULE_4__["MonsterViewComponent"] },
+    { path: 'battleGenerator', component: _battle_scene_battle_scene_component__WEBPACK_IMPORTED_MODULE_5__["BattleSceneComponent"] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -288,6 +296,81 @@ var AppRoutingModule = /** @class */ (function () {
         })
     ], AppRoutingModule);
     return AppRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/battle-scene/battle-scene.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/battle-scene/battle-scene.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".btn-space {\r\n    margin: 5px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/battle-scene/battle-scene.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/battle-scene/battle-scene.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n  <div class=\"col-md-4\"></div>\n  <div class=\"form=group col-md-4\">\n    <h2>Set party level:</h2>\n    <input [(ngModel)]=\"level\" name=\"level\" class=\"form-control\" id=\"level\">\n    <h2>Set party difficulty:</h2>\n    <input [(ngModel)]=\"difficulty\" name=\"difficulty\" class=\"form-control\" id=\"difficulty\">\n    <button class=\"btn btn-primary btn-space\" (click)=\"constructBattleScene()\">Generate</button>\n  </div>\n  <div class=\"col-md-4\"></div>\n</div>\n<div class=\"row\" style=\"text-align:left\">\n  <div class=\"col-md-12\" *ngFor=\"let event of scene.events\">\n    <h1>{{event.description}}</h1>\n    <table class=\"table borderless\">\n      <thead>\n        <tr>\n          <th><h2>Experience</h2></th>\n          <th><h2>Reward</h2></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td><h4>{{event.experience}}</h4></td>\n          <td><h4>{{event.reward}}</h4></td>\n        </tr>\n      </tbody>\n    </table>\n\n    <table class=\"table table-striped\">\n        <thead>\n            <tr>\n                <th><h2>Name</h2></th>\n                <th><h2>Challenge rating</h2></th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr *ngFor=\"let monster of event.monsters\">\n              <td><a routerLink=\"/monster-view/{{monster.id}}\" class=\"btn btn-success btn-lg btn-space\" role=\"button\">{{monster.name}}</a></td>\n              <td><h3>{{monster.challenge_rating}}</h3></td>\n            </tr>\n          </tbody>\n    </table>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/battle-scene/battle-scene.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/battle-scene/battle-scene.component.ts ***!
+  \********************************************************/
+/*! exports provided: BattleSceneComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BattleSceneComponent", function() { return BattleSceneComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _model_scene_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../model/scene.model */ "./src/app/model/scene.model.ts");
+/* harmony import */ var _scene_service_scene_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scene-service/scene-service.service */ "./src/app/scene-service/scene-service.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var BattleSceneComponent = /** @class */ (function () {
+    function BattleSceneComponent(sceneService) {
+        this.sceneService = sceneService;
+    }
+    BattleSceneComponent.prototype.ngOnInit = function () {
+        this.scene = new _model_scene_model__WEBPACK_IMPORTED_MODULE_1__["Scene"]();
+    };
+    BattleSceneComponent.prototype.constructBattleScene = function () {
+        var _this = this;
+        this.sceneService.getBattleScene(this.level, this.difficulty).subscribe(function (data) {
+            _this.scene = data;
+        });
+    };
+    BattleSceneComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-battle-scene',
+            template: __webpack_require__(/*! ./battle-scene.component.html */ "./src/app/battle-scene/battle-scene.component.html"),
+            styles: [__webpack_require__(/*! ./battle-scene.component.css */ "./src/app/battle-scene/battle-scene.component.css")]
+        }),
+        __metadata("design:paramtypes", [_scene_service_scene_service_service__WEBPACK_IMPORTED_MODULE_2__["SceneService"]])
+    ], BattleSceneComponent);
+    return BattleSceneComponent;
 }());
 
 
@@ -328,6 +411,26 @@ var Monster = /** @class */ (function () {
     function Monster() {
     }
     return Monster;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/model/scene.model.ts":
+/*!**************************************!*\
+  !*** ./src/app/model/scene.model.ts ***!
+  \**************************************/
+/*! exports provided: Scene */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scene", function() { return Scene; });
+var Scene = /** @class */ (function () {
+    function Scene() {
+    }
+    return Scene;
 }());
 
 
@@ -470,7 +573,6 @@ var MonsterViewComponent = /** @class */ (function () {
         var id = +this.route.snapshot.paramMap.get('id');
         this.monsterService.getFullMonster(id).subscribe(function (data) {
             _this.monster = data;
-            console.log(_this.monster.legendary_actions);
         });
     };
     MonsterViewComponent = __decorate([
@@ -602,6 +704,51 @@ var MonsterComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], _monster_service_monster_service__WEBPACK_IMPORTED_MODULE_3__["MonsterService"]])
     ], MonsterComponent);
     return MonsterComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/scene-service/scene-service.service.ts":
+/*!********************************************************!*\
+  !*** ./src/app/scene-service/scene-service.service.ts ***!
+  \********************************************************/
+/*! exports provided: SceneService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SceneService", function() { return SceneService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SceneService = /** @class */ (function () {
+    function SceneService(http) {
+        this.http = http;
+        this.scenerUrl = '/api/scene';
+    }
+    SceneService.prototype.getBattleScene = function (level, difficulty) {
+        var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]();
+        params = params.set("level", level.toString());
+        params = params.set("difficulty", difficulty.toString());
+        return this.http.get(this.scenerUrl, { params: params });
+    };
+    SceneService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], SceneService);
+    return SceneService;
 }());
 
 

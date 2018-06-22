@@ -9,13 +9,16 @@ import { MonsterService } from './monster-service/monster.service';
 import { HttpClientModule } from "@angular/common/http";
 import { AddMonsterComponent } from './add-monster/add-monster.component';
 import { MonsterViewComponent } from './monster-view/monster-view.component';
+import { BattleSceneComponent } from './battle-scene/battle-scene.component';
+import { SceneService } from './scene-service/scene-service.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MonsterComponent,
     AddMonsterComponent,
-    MonsterViewComponent
+    MonsterViewComponent,
+    BattleSceneComponent    
   ],
   imports: [
     BrowserModule,
@@ -23,7 +26,7 @@ import { MonsterViewComponent } from './monster-view/monster-view.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [MonsterService],
+  providers: [MonsterService, SceneService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

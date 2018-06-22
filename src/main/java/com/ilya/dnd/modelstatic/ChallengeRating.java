@@ -43,7 +43,7 @@ public enum ChallengeRating {
     //TODO refactor this heavy kostil
     private static String parseCr(String cr) {
         switch (cr) {
-            case "1" :
+            case "1":
                 return "1.1";
             case "1/2":
                 return "1";
@@ -75,6 +75,7 @@ public enum ChallengeRating {
         throw new EntityNotFoundException("Can't find monster with cr " + cr);
     }
 
+    //
     public static List<ChallengeRating> getRange(int expValue) {
         List<ChallengeRating> challengeRatings = new ArrayList<>();
         for (int i = 1; i < values().length; i++) {
@@ -88,7 +89,7 @@ public enum ChallengeRating {
                 if ((i + ONE_LEVEL_SHIFT) < values().length) {
                     challengeRatings.add(values()[i + ONE_LEVEL_SHIFT]);
                 }
-                if((i + TWO_LEVEL_SHIFT) < values().length) {
+                if ((i + TWO_LEVEL_SHIFT) < values().length) {
                     challengeRatings.add(values()[i + TWO_LEVEL_SHIFT]);
                 }
                 return challengeRatings;
